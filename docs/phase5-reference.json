@@ -1,0 +1,48 @@
+{
+  "realSourceSha256": "f99bef47ef61efbfadc2be7a96c1c04448ff3a3ae98f06d1a297e56a815b92f2",
+  "baseline": {
+    "count": 1002426,
+    "requested": 2566801175,
+    "delivered": 2067851443,
+    "credited": 2067635723,
+    "pending": 499165452,
+    "overdue": 409486132,
+    "complete": 819126,
+    "zero": 172556,
+    "excess": 6,
+    "invalid": 0,
+    "noDeadline": 0,
+    "noDeliveryDate": 0,
+    "badDates": 911,
+    "onTime": 726930,
+    "timed": 829870,
+    "responseN": 828959,
+    "median": 12,
+    "p90": 27,
+    "coverage": 0.8055301451231415,
+    "timely": 0.8759564751105595,
+    "top5": 0.33692432488464946
+  },
+  "syntheticValidation": {
+    "deltaPending": -13,
+    "deltaDelivered": 11,
+    "groupPresence": [
+      {
+        "name": "Empresa A",
+        "presence": "only_before",
+        "pendingInBoth": false
+      },
+      {
+        "name": "Empresa B",
+        "presence": "both",
+        "pendingInBoth": true
+      },
+      {
+        "name": "Empresa D",
+        "presence": "only_after",
+        "pendingInBoth": false
+      }
+    ]
+  },
+  "note": "La comparación entre dos cortes de prueba es exclusivamente sintética; no forma parte del inventario público."
+}

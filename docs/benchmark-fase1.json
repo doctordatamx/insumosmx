@@ -1,0 +1,14 @@
+{
+  "runtime": "v24.13.0",
+  "datasetBytes": 19107881,
+  "fullDecodeAnalysisAndOverviewMs": 9559,
+  "overviewMs": 3063,
+  "count": 1002426,
+  "institutions": 10,
+  "suppliers": 513,
+  "keys": 3361,
+  "clues": 491,
+  "withClues": 1002426,
+  "eligible": 1002426,
+  "note": "Una ejecución local Node; no es un benchmark móvil ni una medición de carga de navegador o memoria del Worker."
+}

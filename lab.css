@@ -1,0 +1,2 @@
+#labGraph svg{width:100%;height:auto;display:block}#labRule{max-width:100%;padding:10px}#labProviders th,#labEdges th{overflow-wrap:anywhere}#labRuleCounts{margin:16px 0}#labExamples td{font-size:12px;min-width:120px}#labNetworkStatus{font-size:13px;color:var(--muted)}#labPairBars:empty{display:none}
+#labPairs th small{display:block;font-weight:400;margin-top:4px}#labPairs td,#labPairs th{font-size:13px;padding:14px 12px}

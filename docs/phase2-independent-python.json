@@ -1,0 +1,23 @@
+{
+  "sourceSha256": "f99bef47ef61efbfadc2be7a96c1c04448ff3a3ae98f06d1a297e56a815b92f2",
+  "times": {
+    "n": 828959,
+    "median": 12,
+    "p25": 8,
+    "p75": 16,
+    "p90": 27,
+    "p95": 42,
+    "mad": 4,
+    "mean": 16.290493257205725,
+    "sd": 22.02079471873458,
+    "iqr": 8,
+    "cv": 1.3517573943928425
+  },
+  "concentration": {
+    "hhi10000": 384.32024142878856,
+    "effectiveProviders": 26.01996700153749,
+    "gini": 0.8999972886652916,
+    "entropy": 4.084810084126473
+  },
+  "status": "Coinciden con JavaScript; Python statistics y suma de observaciones, sin reutilizar el código del motor."
+}

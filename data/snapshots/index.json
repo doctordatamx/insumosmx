@@ -1,0 +1,118 @@
+{
+  "version": "5.0.0",
+  "snapshots": [
+    {
+      "id": "f99bef47ef61efbfadc2be7a96c1c04448ff3a3ae98f06d1a297e56a815b92f2",
+      "sourceSha256": "f99bef47ef61efbfadc2be7a96c1c04448ff3a3ae98f06d1a297e56a815b92f2",
+      "contentSha256": "7b9b4032235980039c67a452ad8d16d4b56098bff67dd8a0c59319ae034e07e6",
+      "payloadSha256": "e0e97350c418073005107943970b647f440f89a40c8838fedd95b6bb4ce78008",
+      "bytes": 19107881,
+      "retrievedAt": "2026-10-26T03:37:19.351187+00:00",
+      "sourceUpdatedAt": null,
+      "source": "https://entregamedicamentos.salud.gob.mx/insumos/",
+      "records": 1102722,
+      "fields": [
+        "clave",
+        "descripcion",
+        "institucion",
+        "entidad",
+        "estatus",
+        "nombre_proveedor",
+        "fecha_solicitud",
+        "fecha_entrega",
+        "fecha_limite",
+        "piezas_solicitadas",
+        "piezas",
+        "canceladas_activas",
+        "clues",
+        "unidad_medica",
+        "suministro",
+        "tipo_procedimiento_1",
+        "licitacion",
+        "contrato"
+      ],
+      "schemaStatus": "compatible-18-fields",
+      "sourceHeaders": null,
+      "schemaNote": "Original de referencia sin cabeceras auditadas",
+      "keys": 3375,
+      "providers": 517,
+      "remissions": {
+        "ACTIVA": 1002426,
+        "CANCELADA": 100296
+      },
+      "geographySha256": "34f7f38f7b3ed5efa42694af0aba955abe14b5c88030e57ee21180559bda4f08"
+    },
+    {
+      "id": "eecadbe394130fdf55fe2f978779b4a3df1104d7256d652454ce55f088cd83d7",
+      "sourceSha256": "eecadbe394130fdf55fe2f978779b4a3df1104d7256d652454ce55f088cd83d7",
+      "contentSha256": "c220362026955b0bff66710c271fe97644481f2135980298384fcae3262e5b03",
+      "payloadSha256": "1b7bf54bee4f609c061c1835128e4181dd97bf751fd24b2c483e246e7014e258",
+      "bytes": 18965891,
+      "retrievedAt": "2026-10-31T04:55:20.364490+00:00",
+      "sourceUpdatedAt": null,
+      "source": "https://entregamedicamentos.salud.gob.mx/insumos/",
+      "records": 1098561,
+      "fields": [
+        "clave",
+        "descripcion",
+        "institucion",
+        "entidad",
+        "estatus",
+        "nombre_proveedor",
+        "fecha_solicitud",
+        "fecha_entrega",
+        "fecha_limite",
+        "piezas_solicitadas",
+        "piezas",
+        "canceladas_activas",
+        "clues",
+        "unidad_medica",
+        "suministro",
+        "tipo_procedimiento_1",
+        "licitacion",
+        "contrato"
+      ],
+      "schemaStatus": "compatible-18-fields",
+      "sourceHeaders": [
+        [
+          "clave",
+          "descripcion",
+          "institucion",
+          "entidad",
+          "clues",
+          "unidad_medica",
+          "suministro",
+          "tipo_procedimiento_1",
+          "licitacion",
+          "contrato",
+          "estatus",
+          "fecha_solicitud",
+          "piezas_solicitadas",
+          "proveedor",
+          "fecha_entrega",
+          "piezas_entregadas",
+          "fecha_limite",
+          "canceladas_activas"
+        ]
+      ],
+      "schemaNote": "Cabeceras originales registradas",
+      "keys": 3374,
+      "providers": 520,
+      "remissions": {
+        "ACTIVA": 997747,
+        "CANCELADA": 100814
+      },
+      "geographySha256": "a3c3f127ce48fb0fafc7f8b237862d8043539f9d636e804f3c260fc917646741"
+    }
+  ],
+  "observations": [
+    {
+      "sourceSha256": "f99bef47ef61efbfadc2be7a96c1c04448ff3a3ae98f06d1a297e56a815b92f2",
+      "retrievedAt": "2026-10-26T03:37:19.351187+00:00"
+    },
+    {
+      "sourceSha256": "eecadbe394130fdf55fe2f978779b4a3df1104d7256d652454ce55f088cd83d7",
+      "retrievedAt": "2026-10-31T04:55:20.364490+00:00"
+    }
+  ]
+}

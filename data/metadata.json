@@ -1,0 +1,65 @@
+{
+  "source": "https://entregamedicamentos.salud.gob.mx/insumos/",
+  "retrievedAt": "2026-10-31T04:55:20.364490+00:00",
+  "records": 1098561,
+  "sourceSha256": "eecadbe394130fdf55fe2f978779b4a3df1104d7256d652454ce55f088cd83d7",
+  "requestMin": "2025-10-23",
+  "requestMax": "2026-10-23",
+  "numericErrors": 0,
+  "fields": [
+    "clave",
+    "descripcion",
+    "institucion",
+    "entidad",
+    "estatus",
+    "nombre_proveedor",
+    "fecha_solicitud",
+    "fecha_entrega",
+    "fecha_limite",
+    "piezas_solicitadas",
+    "piezas",
+    "canceladas_activas",
+    "clues",
+    "unidad_medica",
+    "suministro",
+    "tipo_procedimiento_1",
+    "licitacion",
+    "contrato"
+  ],
+  "scope": "Exportación oficial sin filtros solicitada con search={}. Integridad del universo no garantizada por la fuente.",
+  "sourceHeaders": [
+    [
+      "clave",
+      "descripcion",
+      "institucion",
+      "entidad",
+      "clues",
+      "unidad_medica",
+      "suministro",
+      "tipo_procedimiento_1",
+      "licitacion",
+      "contrato",
+      "estatus",
+      "fecha_solicitud",
+      "piezas_solicitadas",
+      "proveedor",
+      "fecha_entrega",
+      "piezas_entregadas",
+      "fecha_limite",
+      "canceladas_activas"
+    ]
+  ],
+  "transformVersion": "5.0.0",
+  "sourceUpdatedAt": null,
+  "quality": {
+    "exactDuplicateExtraRowsByRemission": {
+      "ACTIVA": 234,
+      "CANCELADA": 15
+    },
+    "rowsByRemission": {
+      "ACTIVA": 997747,
+      "CANCELADA": 100814
+    },
+    "note": "Filas idénticas en los 18 campos conservados. Se mantienen en los indicadores; el número de suministro no se presupone único."
+  }
+}

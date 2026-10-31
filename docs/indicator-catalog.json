@@ -1,0 +1,727 @@
+{
+  "version": "2.0.0",
+  "publishedDate": "2026-10-25",
+  "notation": "q=solicitadas, e=entregadas, x=días de respuesta; sᵢ=participación por volumen; k=proveedores positivos.",
+  "status": "Descriptivo, sin predicciones ni inferencia causal",
+  "indicators": [
+    {
+      "id": "requested",
+      "name": "Piezas solicitadas",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "Σ q",
+      "formula": "Σ q",
+      "numerator": "Σ piezas_solicitadas",
+      "denominator": "No aplica: suma de volumen",
+      "unit": "piezas",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas.",
+      "exclusions": "Ambas cantidades inválidas, ausentes o negativas excluyen la fila.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Piezas solicitadas dentro del universo y denominador especificados.",
+      "limitations": "Piezas logísticas no equivalen a dosis/tratamientos. Pendiente institucional no equivale a desabasto clínico. Las filas no son órdenes únicas verificadas.",
+      "computeReference": "analytics.js: add"
+    },
+    {
+      "id": "delivered",
+      "name": "Entregadas reportadas",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "Σ e",
+      "formula": "Σ e",
+      "numerator": "Σ piezas",
+      "denominator": "No aplica: suma de volumen",
+      "unit": "piezas",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas.",
+      "exclusions": "Mismas exclusiones de cantidades.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Entregadas reportadas dentro del universo y denominador especificados.",
+      "limitations": "Entrega reportada no certifica recepción física. Piezas logísticas no equivalen a dosis/tratamientos. Pendiente institucional no equivale a desabasto clínico. Las filas no son órdenes únicas verificadas.",
+      "computeReference": "analytics.js: add"
+    },
+    {
+      "id": "credited",
+      "name": "Entregadas acreditables",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "Σ min(q,e)",
+      "formula": "Σ min(q,e)",
+      "numerator": "Σ mínimo por fila",
+      "denominator": "No aplica: suma de volumen",
+      "unit": "piezas",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas.",
+      "exclusions": "Mismas exclusiones de cantidades.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Entregadas acreditables dentro del universo y denominador especificados.",
+      "limitations": "Sobreentregas no compensan otras filas. Piezas logísticas no equivalen a dosis/tratamientos. Pendiente institucional no equivale a desabasto clínico. Las filas no son órdenes únicas verificadas.",
+      "computeReference": "analytics.js: add"
+    },
+    {
+      "id": "coverage",
+      "name": "Cobertura acreditable",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "Σ min(q,e) / Σ q",
+      "formula": "Σ min(q,e) / Σ q",
+      "numerator": "Entregadas acreditables",
+      "denominator": "Solicitadas válidas; null si suma=0",
+      "unit": "fracción [0,1]",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas.",
+      "exclusions": "Mismas exclusiones de cantidades.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Cobertura acreditable dentro del universo y denominador especificados.",
+      "limitations": "No es promedio de porcentajes por proveedor. Piezas logísticas no equivalen a dosis/tratamientos. Pendiente institucional no equivale a desabasto clínico. Las filas no son órdenes únicas verificadas.",
+      "computeReference": "analytics.js: finish"
+    },
+    {
+      "id": "pending",
+      "name": "Brecha pendiente",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "Σ max(q−e,0)",
+      "formula": "Σ max(q−e,0)",
+      "numerator": "Pendiente por fila",
+      "denominator": "No aplica: suma de volumen",
+      "unit": "piezas",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas.",
+      "exclusions": "Mismas exclusiones de cantidades.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Brecha pendiente dentro del universo y denominador especificados.",
+      "limitations": "Piezas logísticas no equivalen a dosis/tratamientos. Pendiente institucional no equivale a desabasto clínico. Las filas no son órdenes únicas verificadas.",
+      "computeReference": "analytics.js: add"
+    },
+    {
+      "id": "gapRate",
+      "name": "Brecha relativa",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "Σ max(q−e,0) / Σ q",
+      "formula": "Σ max(q−e,0) / Σ q",
+      "numerator": "Brecha pendiente",
+      "denominator": "Solicitadas válidas; null si suma=0",
+      "unit": "fracción [0,1]",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas.",
+      "exclusions": "Mismas exclusiones de cantidades.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Brecha relativa dentro del universo y denominador especificados.",
+      "limitations": "Piezas logísticas no equivalen a dosis/tratamientos. Pendiente institucional no equivale a desabasto clínico. Las filas no son órdenes únicas verificadas.",
+      "computeReference": "statistics-worker.js: finishScientific"
+    },
+    {
+      "id": "overdue",
+      "name": "Brecha vencida",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "Σ pendiente si fecha_limite < corte",
+      "formula": "Σ pendiente si fecha_limite < corte",
+      "numerator": "Brecha con plazo vencido",
+      "denominator": "No aplica: suma de volumen",
+      "unit": "piezas",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "fecha_limite"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas.",
+      "exclusions": "Plazo ausente/inválido no se clasifica vencido.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Brecha vencida dentro del universo y denominador especificados.",
+      "limitations": "El corte de evaluación no reconstruye el estado histórico de las entregas. Piezas logísticas no equivalen a dosis/tratamientos. Pendiente institucional no equivale a desabasto clínico. Las filas no son órdenes únicas verificadas.",
+      "computeReference": "analytics.js: add",
+      "usesEvaluationDate": true
+    },
+    {
+      "id": "completeRate",
+      "name": "Cumplimiento por cantidad",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "n(e≥q y q>0) / n(q>0)",
+      "formula": "n(e≥q y q>0) / n(q>0)",
+      "numerator": "Filas completas por cantidad",
+      "denominator": "Filas con ambas cantidades válidas y solicitud positiva",
+      "unit": "fracción [0,1]",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas.",
+      "exclusions": "Solicitudes cero y cantidades inválidas fuera del denominador.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Cumplimiento por cantidad dentro del universo y denominador especificados.",
+      "limitations": "No certifica puntualidad ni recepción física. Piezas logísticas no equivalen a dosis/tratamientos. Pendiente institucional no equivale a desabasto clínico. Las filas no son órdenes únicas verificadas.",
+      "computeReference": "statistics-worker.js: finishScientific"
+    },
+    {
+      "id": "zeroRate",
+      "name": "Entrega nula reportada",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "n(e=0 y q>0) / n(q>0)",
+      "formula": "n(e=0 y q>0) / n(q>0)",
+      "numerator": "Filas sin piezas entregadas",
+      "denominator": "Filas con ambas cantidades válidas y solicitud positiva",
+      "unit": "fracción [0,1]",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas.",
+      "exclusions": "Solicitudes cero y cantidades inválidas fuera del denominador.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Entrega nula reportada dentro del universo y denominador especificados.",
+      "limitations": "Piezas logísticas no equivalen a dosis/tratamientos. Pendiente institucional no equivale a desabasto clínico. Las filas no son órdenes únicas verificadas.",
+      "computeReference": "statistics-worker.js: finishScientific"
+    },
+    {
+      "id": "timely",
+      "name": "Puntualidad registrada",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "n(fecha_entrega≤fecha_limite) / n(fechas evaluables)",
+      "formula": "n(fecha_entrega≤fecha_limite) / n(fechas evaluables)",
+      "numerator": "Entregadas con fecha no posterior al plazo",
+      "denominator": "Filas con piezas>0, cantidades válidas y entrega/plazo válidos",
+      "unit": "fracción [0,1]",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "fecha_entrega",
+        "fecha_limite"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas.",
+      "exclusions": "Excluye e≤0, fecha de entrega/plazo inválida.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Puntualidad registrada dentro del universo y denominador especificados.",
+      "limitations": "No es OTIF. La regla base no excluye entrega anterior a solicitud de esta métrica; se conserva y se audita por separado.",
+      "computeReference": "analytics.js: add y finish"
+    },
+    {
+      "id": "top5",
+      "name": "Participación top 5 del motor base",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "Σ q de cinco mayores categorías de proveedor / Σ q",
+      "formula": "Σ q de cinco mayores categorías de proveedor / Σ q",
+      "numerator": "Solicitadas de cinco mayores categorías",
+      "denominator": "Solicitadas válidas totales",
+      "unit": "fracción [0,1]",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "nombre_proveedor"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas.",
+      "exclusions": "Mismas exclusiones de cantidades; sin proveedor se mantiene como categoría si existe.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Participación top 5 del motor base dentro del universo y denominador especificados.",
+      "limitations": "Se conserva por equivalencia con la versión base. Para concentración de proveedores con nombre, consultar top5Known y knownSupplierCoverage. Piezas logísticas no equivalen a dosis/tratamientos. Pendiente institucional no equivale a desabasto clínico. Las filas no son órdenes únicas verificadas.",
+      "computeReference": "analytics.js: analyze"
+    },
+    {
+      "id": "median",
+      "name": "Mediana de respuesta",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "(x central inferior + x central superior) / 2",
+      "formula": "(x central inferior + x central superior) / 2",
+      "numerator": "Vector de diferencias de días elegibles",
+      "denominator": "n intervalos válidos; no es razón para estadísticos de orden",
+      "unit": "días",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "fecha_solicitud",
+        "fecha_entrega"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Piezas entregadas >0; ambas fechas válidas y entrega no anterior a solicitud.",
+      "exclusions": "Cantidades inválidas, e≤0, fechas inválidas o intervalos negativos. null si n=0; DE/CV null si n<2; CV null si media=0.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Mediana de respuesta dentro del universo y denominador especificados.",
+      "limitations": "Intervalos por registro, no ponderados por piezas. La fecha registrada no identifica primera entrega ni entrega completa. No es supervivencia ni efecto causal. Percentiles por rango más próximo (inverted CDF); mediana por promedio central. DE usa n−1 como convención, sin inferencia de muestreo aleatorio.",
+      "computeReference": "statistics.js: describeFrequencies",
+      "sources": [
+        "https://numpy.org/doc/2.0/reference/generated/numpy.quantile.html",
+        "https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm"
+      ]
+    },
+    {
+      "id": "p25",
+      "name": "P25 de respuesta",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "x[ceil(0.25 n)]",
+      "formula": "x[ceil(0.25 n)]",
+      "numerator": "Vector de diferencias de días elegibles",
+      "denominator": "n intervalos válidos; no es razón para estadísticos de orden",
+      "unit": "días",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "fecha_solicitud",
+        "fecha_entrega"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Piezas entregadas >0; ambas fechas válidas y entrega no anterior a solicitud.",
+      "exclusions": "Cantidades inválidas, e≤0, fechas inválidas o intervalos negativos. null si n=0; DE/CV null si n<2; CV null si media=0.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "P25 de respuesta dentro del universo y denominador especificados.",
+      "limitations": "Intervalos por registro, no ponderados por piezas. La fecha registrada no identifica primera entrega ni entrega completa. No es supervivencia ni efecto causal. Percentiles por rango más próximo (inverted CDF); mediana por promedio central. DE usa n−1 como convención, sin inferencia de muestreo aleatorio.",
+      "computeReference": "statistics.js: describeFrequencies",
+      "sources": [
+        "https://numpy.org/doc/2.0/reference/generated/numpy.quantile.html",
+        "https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm"
+      ]
+    },
+    {
+      "id": "p75",
+      "name": "P75 de respuesta",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "x[ceil(0.75 n)]",
+      "formula": "x[ceil(0.75 n)]",
+      "numerator": "Vector de diferencias de días elegibles",
+      "denominator": "n intervalos válidos; no es razón para estadísticos de orden",
+      "unit": "días",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "fecha_solicitud",
+        "fecha_entrega"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Piezas entregadas >0; ambas fechas válidas y entrega no anterior a solicitud.",
+      "exclusions": "Cantidades inválidas, e≤0, fechas inválidas o intervalos negativos. null si n=0; DE/CV null si n<2; CV null si media=0.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "P75 de respuesta dentro del universo y denominador especificados.",
+      "limitations": "Intervalos por registro, no ponderados por piezas. La fecha registrada no identifica primera entrega ni entrega completa. No es supervivencia ni efecto causal. Percentiles por rango más próximo (inverted CDF); mediana por promedio central. DE usa n−1 como convención, sin inferencia de muestreo aleatorio.",
+      "computeReference": "statistics.js: describeFrequencies",
+      "sources": [
+        "https://numpy.org/doc/2.0/reference/generated/numpy.quantile.html",
+        "https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm"
+      ]
+    },
+    {
+      "id": "p90",
+      "name": "P90 de respuesta",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "x[ceil(0.90 n)]",
+      "formula": "x[ceil(0.90 n)]",
+      "numerator": "Vector de diferencias de días elegibles",
+      "denominator": "n intervalos válidos; no es razón para estadísticos de orden",
+      "unit": "días",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "fecha_solicitud",
+        "fecha_entrega"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Piezas entregadas >0; ambas fechas válidas y entrega no anterior a solicitud.",
+      "exclusions": "Cantidades inválidas, e≤0, fechas inválidas o intervalos negativos. null si n=0; DE/CV null si n<2; CV null si media=0.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "P90 de respuesta dentro del universo y denominador especificados.",
+      "limitations": "Intervalos por registro, no ponderados por piezas. La fecha registrada no identifica primera entrega ni entrega completa. No es supervivencia ni efecto causal. Percentiles por rango más próximo (inverted CDF); mediana por promedio central. DE usa n−1 como convención, sin inferencia de muestreo aleatorio.",
+      "computeReference": "statistics.js: describeFrequencies",
+      "sources": [
+        "https://numpy.org/doc/2.0/reference/generated/numpy.quantile.html",
+        "https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm"
+      ]
+    },
+    {
+      "id": "p95",
+      "name": "P95 de respuesta",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "x[ceil(0.95 n)]",
+      "formula": "x[ceil(0.95 n)]",
+      "numerator": "Vector de diferencias de días elegibles",
+      "denominator": "n intervalos válidos; no es razón para estadísticos de orden",
+      "unit": "días",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "fecha_solicitud",
+        "fecha_entrega"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Piezas entregadas >0; ambas fechas válidas y entrega no anterior a solicitud.",
+      "exclusions": "Cantidades inválidas, e≤0, fechas inválidas o intervalos negativos. null si n=0; DE/CV null si n<2; CV null si media=0.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "P95 de respuesta dentro del universo y denominador especificados.",
+      "limitations": "Intervalos por registro, no ponderados por piezas. La fecha registrada no identifica primera entrega ni entrega completa. No es supervivencia ni efecto causal. Percentiles por rango más próximo (inverted CDF); mediana por promedio central. DE usa n−1 como convención, sin inferencia de muestreo aleatorio.",
+      "computeReference": "statistics.js: describeFrequencies",
+      "sources": [
+        "https://numpy.org/doc/2.0/reference/generated/numpy.quantile.html",
+        "https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm"
+      ]
+    },
+    {
+      "id": "iqr",
+      "name": "Rango intercuartílico",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "P75 − P25",
+      "formula": "P75 − P25",
+      "numerator": "Vector de diferencias de días elegibles",
+      "denominator": "n intervalos válidos; no es razón para estadísticos de orden",
+      "unit": "días",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "fecha_solicitud",
+        "fecha_entrega"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Piezas entregadas >0; ambas fechas válidas y entrega no anterior a solicitud.",
+      "exclusions": "Cantidades inválidas, e≤0, fechas inválidas o intervalos negativos. null si n=0; DE/CV null si n<2; CV null si media=0.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Rango intercuartílico dentro del universo y denominador especificados.",
+      "limitations": "Intervalos por registro, no ponderados por piezas. La fecha registrada no identifica primera entrega ni entrega completa. No es supervivencia ni efecto causal. Percentiles por rango más próximo (inverted CDF); mediana por promedio central. DE usa n−1 como convención, sin inferencia de muestreo aleatorio.",
+      "computeReference": "statistics.js: describeFrequencies",
+      "sources": [
+        "https://numpy.org/doc/2.0/reference/generated/numpy.quantile.html",
+        "https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm"
+      ]
+    },
+    {
+      "id": "mad",
+      "name": "Desviación absoluta mediana",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "mediana(|x − mediana(x)|), sin reescalado",
+      "formula": "mediana(|x − mediana(x)|), sin reescalado",
+      "numerator": "Vector de diferencias de días elegibles",
+      "denominator": "n intervalos válidos; no es razón para estadísticos de orden",
+      "unit": "días",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "fecha_solicitud",
+        "fecha_entrega"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Piezas entregadas >0; ambas fechas válidas y entrega no anterior a solicitud.",
+      "exclusions": "Cantidades inválidas, e≤0, fechas inválidas o intervalos negativos. null si n=0; DE/CV null si n<2; CV null si media=0.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Desviación absoluta mediana dentro del universo y denominador especificados.",
+      "limitations": "Intervalos por registro, no ponderados por piezas. La fecha registrada no identifica primera entrega ni entrega completa. No es supervivencia ni efecto causal. Percentiles por rango más próximo (inverted CDF); mediana por promedio central. DE usa n−1 como convención, sin inferencia de muestreo aleatorio.",
+      "computeReference": "statistics.js: describeFrequencies",
+      "sources": [
+        "https://numpy.org/doc/2.0/reference/generated/numpy.quantile.html",
+        "https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm"
+      ]
+    },
+    {
+      "id": "mean",
+      "name": "Media de respuesta",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "Σ x / n",
+      "formula": "Σ x / n",
+      "numerator": "Vector de diferencias de días elegibles",
+      "denominator": "n intervalos válidos; no es razón para estadísticos de orden",
+      "unit": "días",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "fecha_solicitud",
+        "fecha_entrega"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Piezas entregadas >0; ambas fechas válidas y entrega no anterior a solicitud.",
+      "exclusions": "Cantidades inválidas, e≤0, fechas inválidas o intervalos negativos. null si n=0; DE/CV null si n<2; CV null si media=0.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Media de respuesta dentro del universo y denominador especificados.",
+      "limitations": "Intervalos por registro, no ponderados por piezas. La fecha registrada no identifica primera entrega ni entrega completa. No es supervivencia ni efecto causal. Percentiles por rango más próximo (inverted CDF); mediana por promedio central. DE usa n−1 como convención, sin inferencia de muestreo aleatorio.",
+      "computeReference": "statistics.js: describeFrequencies",
+      "sources": [
+        "https://numpy.org/doc/2.0/reference/generated/numpy.quantile.html",
+        "https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm"
+      ]
+    },
+    {
+      "id": "sd",
+      "name": "Desviación estándar de respuesta",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "sqrt(Σ(x−media)² / (n−1))",
+      "formula": "sqrt(Σ(x−media)² / (n−1))",
+      "numerator": "Vector de diferencias de días elegibles",
+      "denominator": "n intervalos válidos; no es razón para estadísticos de orden",
+      "unit": "días",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "fecha_solicitud",
+        "fecha_entrega"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Piezas entregadas >0; ambas fechas válidas y entrega no anterior a solicitud.",
+      "exclusions": "Cantidades inválidas, e≤0, fechas inválidas o intervalos negativos. null si n=0; DE/CV null si n<2; CV null si media=0.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Desviación estándar de respuesta dentro del universo y denominador especificados.",
+      "limitations": "Intervalos por registro, no ponderados por piezas. La fecha registrada no identifica primera entrega ni entrega completa. No es supervivencia ni efecto causal. Percentiles por rango más próximo (inverted CDF); mediana por promedio central. DE usa n−1 como convención, sin inferencia de muestreo aleatorio.",
+      "computeReference": "statistics.js: describeFrequencies",
+      "sources": [
+        "https://numpy.org/doc/2.0/reference/generated/numpy.quantile.html",
+        "https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm"
+      ]
+    },
+    {
+      "id": "cv",
+      "name": "Coeficiente de variación",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "DE con divisor n−1 / media; sólo si media>0",
+      "formula": "DE con divisor n−1 / media; sólo si media>0",
+      "numerator": "Vector de diferencias de días elegibles",
+      "denominator": "n intervalos válidos; no es razón para estadísticos de orden",
+      "unit": "razón",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "fecha_solicitud",
+        "fecha_entrega"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Piezas entregadas >0; ambas fechas válidas y entrega no anterior a solicitud.",
+      "exclusions": "Cantidades inválidas, e≤0, fechas inválidas o intervalos negativos. null si n=0; DE/CV null si n<2; CV null si media=0.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Coeficiente de variación dentro del universo y denominador especificados.",
+      "limitations": "Intervalos por registro, no ponderados por piezas. La fecha registrada no identifica primera entrega ni entrega completa. No es supervivencia ni efecto causal. Percentiles por rango más próximo (inverted CDF); mediana por promedio central. DE usa n−1 como convención, sin inferencia de muestreo aleatorio.",
+      "computeReference": "statistics.js: describeFrequencies",
+      "sources": [
+        "https://numpy.org/doc/2.0/reference/generated/numpy.quantile.html",
+        "https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm"
+      ]
+    },
+    {
+      "id": "invalidResponseDateRate",
+      "name": "Fechas no evaluables para respuesta",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "n(solicitud o entrega inválida) / n(e>0)",
+      "formula": "n(solicitud o entrega inválida) / n(e>0)",
+      "numerator": "Filas con al menos una fecha no válida",
+      "denominator": "Filas entregadas con cantidades válidas; null si no hay",
+      "unit": "fracción [0,1]",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "fecha_solicitud",
+        "fecha_entrega"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas.",
+      "exclusions": "Se requiere e>0; intervalos negativos se reportan por separado.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Fechas no evaluables para respuesta dentro del universo y denominador especificados.",
+      "limitations": "No contabiliza dos veces una fila con ambas fechas inválidas.",
+      "computeReference": "statistics-worker.js: finishScientific"
+    },
+    {
+      "id": "hhi10000",
+      "name": "HHI de proveedores",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "10000 Σ sᵢ²",
+      "formula": "10000 Σ sᵢ²",
+      "numerator": "Volúmenes positivos solicitados por proveedor; sᵢ=vᵢ/Σvᵢ",
+      "denominator": "Volumen de proveedores con nombre; k proveedores positivos",
+      "unit": "puntos [0,10000]",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "nombre_proveedor",
+        "clave",
+        "institucion"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Solicitud >0 y nombre de proveedor no vacío; por clave-institución, ambas dimensiones también no vacías.",
+      "exclusions": "Sin proveedor excluye volumen de esa distribución; sin clave/institución excluye el análisis de pares. null si no hay volumen.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "HHI de proveedores dentro del universo y denominador especificados.",
+      "limitations": "Nombres publicados sin homologación jurídica. Sólo proveedores con volumen positivo observado; no incluye proveedores potenciales o con volumen cero. Concentración no demuestra falta de competencia. Comparar cartera, volumen y cobertura de datos.",
+      "computeReference": "statistics.js: concentration"
+    },
+    {
+      "id": "effectiveProviders",
+      "name": "Número efectivo de proveedores",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "1 / Σ sᵢ²",
+      "formula": "1 / Σ sᵢ²",
+      "numerator": "Volúmenes positivos solicitados por proveedor; sᵢ=vᵢ/Σvᵢ",
+      "denominator": "Volumen de proveedores con nombre; k proveedores positivos",
+      "unit": "proveedores equivalentes",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "nombre_proveedor",
+        "clave",
+        "institucion"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Solicitud >0 y nombre de proveedor no vacío; por clave-institución, ambas dimensiones también no vacías.",
+      "exclusions": "Sin proveedor excluye volumen de esa distribución; sin clave/institución excluye el análisis de pares. null si no hay volumen.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Número efectivo de proveedores dentro del universo y denominador especificados.",
+      "limitations": "Nombres publicados sin homologación jurídica. Sólo proveedores con volumen positivo observado; no incluye proveedores potenciales o con volumen cero. Concentración no demuestra falta de competencia. Comparar cartera, volumen y cobertura de datos.",
+      "computeReference": "statistics.js: concentration"
+    },
+    {
+      "id": "gini",
+      "name": "Gini de volumen entre proveedores",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "Σ(2i−k−1)vᵢ / (k Σvᵢ), v ordenados crecientes",
+      "formula": "Σ(2i−k−1)vᵢ / (k Σvᵢ), v ordenados crecientes",
+      "numerator": "Volúmenes positivos solicitados por proveedor; sᵢ=vᵢ/Σvᵢ",
+      "denominator": "Volumen de proveedores con nombre; k proveedores positivos",
+      "unit": "índice [0,1]",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "nombre_proveedor",
+        "clave",
+        "institucion"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Solicitud >0 y nombre de proveedor no vacío; por clave-institución, ambas dimensiones también no vacías.",
+      "exclusions": "Sin proveedor excluye volumen de esa distribución; sin clave/institución excluye el análisis de pares. null si no hay volumen.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Gini de volumen entre proveedores dentro del universo y denominador especificados.",
+      "limitations": "Nombres publicados sin homologación jurídica. Sólo proveedores con volumen positivo observado; no incluye proveedores potenciales o con volumen cero. Concentración no demuestra falta de competencia. Comparar cartera, volumen y cobertura de datos.",
+      "computeReference": "statistics.js: concentration"
+    },
+    {
+      "id": "entropy",
+      "name": "Entropía de Shannon",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "−Σ sᵢ ln(sᵢ)",
+      "formula": "−Σ sᵢ ln(sᵢ)",
+      "numerator": "Volúmenes positivos solicitados por proveedor; sᵢ=vᵢ/Σvᵢ",
+      "denominator": "Volumen de proveedores con nombre; k proveedores positivos",
+      "unit": "nats",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "nombre_proveedor",
+        "clave",
+        "institucion"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Solicitud >0 y nombre de proveedor no vacío; por clave-institución, ambas dimensiones también no vacías.",
+      "exclusions": "Sin proveedor excluye volumen de esa distribución; sin clave/institución excluye el análisis de pares. null si no hay volumen.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Entropía de Shannon dentro del universo y denominador especificados.",
+      "limitations": "Nombres publicados sin homologación jurídica. Sólo proveedores con volumen positivo observado; no incluye proveedores potenciales o con volumen cero. Concentración no demuestra falta de competencia. Comparar cartera, volumen y cobertura de datos.",
+      "computeReference": "statistics.js: concentration"
+    },
+    {
+      "id": "normalizedEntropy",
+      "name": "Entropía normalizada",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "Shannon / ln(k); 0 si k=1",
+      "formula": "Shannon / ln(k); 0 si k=1",
+      "numerator": "Volúmenes positivos solicitados por proveedor; sᵢ=vᵢ/Σvᵢ",
+      "denominator": "Volumen de proveedores con nombre; k proveedores positivos",
+      "unit": "índice [0,1]",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "nombre_proveedor",
+        "clave",
+        "institucion"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Solicitud >0 y nombre de proveedor no vacío; por clave-institución, ambas dimensiones también no vacías.",
+      "exclusions": "Sin proveedor excluye volumen de esa distribución; sin clave/institución excluye el análisis de pares. null si no hay volumen.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Entropía normalizada dentro del universo y denominador especificados.",
+      "limitations": "Nombres publicados sin homologación jurídica. Sólo proveedores con volumen positivo observado; no incluye proveedores potenciales o con volumen cero. Concentración no demuestra falta de competencia. Comparar cartera, volumen y cobertura de datos.",
+      "computeReference": "statistics.js: concentration"
+    },
+    {
+      "id": "top1",
+      "name": "Participación del mayor proveedor",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "max(vᵢ) / Σvᵢ",
+      "formula": "max(vᵢ) / Σvᵢ",
+      "numerator": "Volúmenes positivos solicitados por proveedor; sᵢ=vᵢ/Σvᵢ",
+      "denominator": "Volumen de proveedores con nombre; k proveedores positivos",
+      "unit": "fracción [0,1]",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "nombre_proveedor",
+        "clave",
+        "institucion"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Solicitud >0 y nombre de proveedor no vacío; por clave-institución, ambas dimensiones también no vacías.",
+      "exclusions": "Sin proveedor excluye volumen de esa distribución; sin clave/institución excluye el análisis de pares. null si no hay volumen.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Participación del mayor proveedor dentro del universo y denominador especificados.",
+      "limitations": "Nombres publicados sin homologación jurídica. Sólo proveedores con volumen positivo observado; no incluye proveedores potenciales o con volumen cero. Concentración no demuestra falta de competencia. Comparar cartera, volumen y cobertura de datos.",
+      "computeReference": "statistics.js: concentration"
+    },
+    {
+      "id": "top5Known",
+      "name": "Participación de cinco proveedores identificados",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "Σ cinco mayores vᵢ / Σvᵢ",
+      "formula": "Σ cinco mayores vᵢ / Σvᵢ",
+      "numerator": "Volúmenes positivos solicitados por proveedor; sᵢ=vᵢ/Σvᵢ",
+      "denominator": "Volumen de proveedores con nombre; k proveedores positivos",
+      "unit": "fracción [0,1]",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "nombre_proveedor",
+        "clave",
+        "institucion"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas. Solicitud >0 y nombre de proveedor no vacío; por clave-institución, ambas dimensiones también no vacías.",
+      "exclusions": "Sin proveedor excluye volumen de esa distribución; sin clave/institución excluye el análisis de pares. null si no hay volumen.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Participación de cinco proveedores identificados dentro del universo y denominador especificados.",
+      "limitations": "Nombres publicados sin homologación jurídica. Sólo proveedores con volumen positivo observado; no incluye proveedores potenciales o con volumen cero. Concentración no demuestra falta de competencia. Comparar cartera, volumen y cobertura de datos.",
+      "computeReference": "statistics.js: concentration"
+    },
+    {
+      "id": "knownSupplierCoverage",
+      "name": "Cobertura del volumen para concentración",
+      "objective": "Describir el suministro institucional reportado en el universo filtrado.",
+      "classification": "Indicador derivado descriptivo",
+      "operationalDefinition": "Σ q con proveedor no vacío / Σ q válida",
+      "formula": "Σ q con proveedor no vacío / Σ q válida",
+      "numerator": "Volumen solicitado con proveedor identificado por nombre",
+      "denominator": "Volumen solicitado válido total",
+      "unit": "fracción [0,1]",
+      "fields": [
+        "piezas_solicitadas",
+        "piezas",
+        "nombre_proveedor"
+      ],
+      "universe": "Filas seleccionadas con ambas cantidades numéricas, finitas y no negativas.",
+      "exclusions": "Sin proveedor no se inventa una categoría de empresa.",
+      "date": "Fecha de recuperación del archivo y corte de evaluación disponibles en el contexto del reporte.",
+      "interpretation": "Cobertura del volumen para concentración dentro del universo y denominador especificados.",
+      "limitations": "Nombres publicados sin homologación jurídica. Sólo proveedores con volumen positivo observado; no incluye proveedores potenciales o con volumen cero. Concentración no demuestra falta de competencia. Comparar cartera, volumen y cobertura de datos.",
+      "computeReference": "statistics-worker.js: calculateScientificReport"
+    }
+  ]
+}

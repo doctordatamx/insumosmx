@@ -1,0 +1,22 @@
+/* Fichas calculadas sobre selected; nunca redefine ni altera la selección global. */
+const PROFILE_TYPES=['nombre_proveedor','institucion','clave','contrato'];
+function finishProfile(group){const response=group.response;const metrics=finish(group);return {...metrics,p25:percentile(response,.25),p75:percentile(response,.75),min:response[0]??null,max:response.at(-1)??null};}
+function profileRows(type,key){if(!PROFILE_TYPES.includes(type)||!Number.isInteger(Number(key)))throw Error('Ficha inválida');return selected.filter(i=>db.rows[i][IDX[type]]===Number(key));}
+function exportProfileRows(type,key){const indices=profileRows(type,key);const lines=[db.meta.fields.map(csvCell).join(','),...indices.map(i=>db.rows[i].map((_,j)=>csvCell(text(db.rows[i],j))).join(','))];self.postMessage({type:'export',name:`observatorio-ficha-registros-${config.asof}.csv`,blob:new Blob(['\ufeff',lines.join('\r\n')],{type:'text/csv;charset=utf-8'})});}
+function calculateProfiles(type, keys=[]) {
+ if(!PROFILE_TYPES.includes(type))throw Error('Tipo de ficha no válido');
+ const column=IDX[type], available=new Map(), cutoff=day(config.asof);
+ for(const index of selected){const row=db.rows[index],key=row[column];if(!available.has(key))available.set(key,{key,name:text(row,column)||'Sin dato',count:0,pending:0,requested:0,credited:0,description:type==='clave'?text(row,1):''});const item=available.get(key);item.count++;if(Number.isFinite(row[9])&&Number.isFinite(row[10])&&row[9]>=0&&row[10]>=0){item.pending+=Math.max(0,row[9]-row[10]);item.requested+=row[9];item.credited+=Math.min(row[9],row[10]);}}
+ const options=[...available.values()].sort((a,b)=>b.pending-a.pending||a.name.localeCompare(b.name));
+ const chosen=[...new Set(keys.map(Number))];if(chosen.length>(type==='clave'?4:5))throw Error('Compara hasta cuatro claves o cinco elementos de otro tipo');
+ if(!chosen.length&&options.length)chosen.push(options[0].key);
+ // Un elemento que desaparece por filtros conserva una ficha vacía, sin sustituirlo silenciosamente.
+ for(const key of chosen)if(!Number.isInteger(key)||key<0||key>=db.dictionaries[column].length)throw Error('Identificador de ficha inválido');
+ const dimensions=['entidad','institucion','nombre_proveedor','clave','contrato','clues','tipo_procedimiento_1','licitacion'].filter(d=>d!==type);
+ const profiles=new Map(chosen.map(key=>[key,{key,name:db.dictionaries[column][key]||'Sin dato',metrics:blank(),breakdowns:Object.fromEntries(dimensions.map(d=>[d,new Map()])),months:new Map(),descriptions:new Set()}]));
+ for(const index of selected){const row=db.rows[index],profile=profiles.get(row[column]);if(!profile)continue;add(profile.metrics,row,cutoff);if(type==='clave')profile.descriptions.add(text(row,1));
+  for(const dimension of dimensions){const map=profile.breakdowns[dimension],key=row[IDX[dimension]];if(!map.has(key))map.set(key,{key,name:text(row,IDX[dimension])||'Sin dato',...blank()});add(map.get(key),row,cutoff);}
+  if(Number.isFinite(row[9])&&Number.isFinite(row[10])&&row[9]>=0&&row[10]>=0){for(const [dateColumn,metric,quantity] of [[6,'requested',row[9]],[7,'delivered',row[10]]]){if(dates(row)[dateColumn-6]===null)continue;const month=text(row,dateColumn).slice(0,7);if(!profile.months.has(month))profile.months.set(month,{month,requested:0,delivered:0});profile.months.get(month)[metric]+=quantity;}}
+ }
+ return {version:'4.0.0',type,context:JSON.parse(JSON.stringify(config)),source:{...db.meta},geography:config.geoMunicipality?{catalogSha256:geoBundle?.meta.catalog.sha256,statesSha256:geoBundle?.meta.states.sha256}:null,universeCount:selected.length,options,profiles:[...profiles.values()].map(profile=>({...profile,metrics:finishProfile(profile.metrics),descriptions:[...profile.descriptions],breakdowns:Object.fromEntries(dimensions.map(d=>[d,[...profile.breakdowns[d].values()].map(finish).sort((a,b)=>b.pending-a.pending||a.name.localeCompare(b.name))])),months:[...profile.months.values()].sort((a,b)=>a.month.localeCompare(b.month))})),notes:['Entregas reportadas; no certifica recepción física ni desabasto clínico.','Los filtros globales restringen todas las fichas. El comparador no iguala mezcla de medicamentos, contratos o instituciones.','Las series mensuales son flujos del universo seleccionado, no cohortes ni cortes históricos. Fechas inválidas se excluyen del flujo correspondiente.','Tiempos sin ponderación por piezas; puntualidad entre entregas con fechas de entrega y límite válidas; no es OTIF.']};
+}

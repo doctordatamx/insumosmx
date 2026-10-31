@@ -1,0 +1,31 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),zlib=require('node:zlib');
+const {performance}=require('node:perf_hooks');
+const bundle=JSON.parse(fs.readFileSync('data/snapshots/f99bef47ef61efbfadc2be7a96c1c04448ff3a3ae98f06d1a297e56a815b92f2/geography.json','utf8'));
+assert.equal(bundle.states.features.length,32);assert.equal(new Set(bundle.states.features.map(f=>f.properties.cvegeo)).size,32);
+assert.ok(bundle.municipalities.features.length>0);
+const allowed=new Set(['name','institution','adminInstitution','state','municipality','municipalityName','locality','status','latitude','longitude','clues','coordinateStatus','municipalityCoordinateStatus']);
+for(const record of Object.values(bundle.catalog)){for(const field of Object.keys(record))assert.ok(allowed.has(field),'Campo no autorizado para publicación: '+field);if(record.coordinateStatus==='inside_declared_state'){assert.ok(Number.isFinite(record.latitude)&&Number.isFinite(record.longitude));assert.equal(record.municipalityCoordinateStatus,'inside_declared_municipality');}}
+const messages=[],context=vm.createContext({Blob,performance,console,postMessage:m=>messages.push(m)});context.self=context;
+context.importScripts=(...paths)=>paths.forEach(path=>vm.runInContext(fs.readFileSync(path,'utf8'),context));
+vm.runInContext(fs.readFileSync('dashboard-worker.js','utf8'),context);
+context.payload=zlib.gunzipSync(fs.readFileSync('data/snapshots/f99bef47ef61efbfadc2be7a96c1c04448ff3a3ae98f06d1a297e56a815b92f2/observatorio.json.gz')).toString();context.geoPayload=JSON.stringify(bundle);
+vm.runInContext('db=JSON.parse(payload);geoBundle=JSON.parse(geoPayload);setup();',context);context.payload=null;
+const run=municipality=>{context.testMunicipality=municipality||'';vm.runInContext("analyze({asof:'2026-10-25',group:'entidad',metric:'pending',filters:{canceladas_activas:String(db.dictionaries[11].indexOf('ACTIVA'))},scope:'all',geoMunicipality:testMunicipality});",context);return JSON.parse(vm.runInContext('JSON.stringify(calculateGeography())',context));};
+let report=run('');assert.equal(report.count,1002426);assert.equal(report.totals.requested,2566801175);assert.equal(report.totals.pending,499165452);assert.equal(report.unknownState,0);
+assert.deepEqual(report.statuses,bundle.meta.activeRecordStatuses);assert.equal(Object.values(report.statuses).reduce((a,b)=>a+b,0),report.count);
+const matched=report.units.reduce((a,b)=>a+b.rows,0);assert.equal(report.municipalities.reduce((a,b)=>a+b.rows,0),matched);
+assert.equal(report.states.reduce((a,b)=>a+b.requested,0),report.totals.requested);
+assert.equal(Object.values(report.byInstitution).reduce((sum,counts)=>sum+Object.values(counts).reduce((a,b)=>a+b,0),0),report.count);
+const selectable=new Set(bundle.municipalities.features.map(f=>f.properties.cvegeo));
+const municipality=report.municipalities.find(m=>selectable.has(m.code)&&m.rows>0);assert.ok(municipality);
+const filtered=run(municipality.code);assert.equal(filtered.count,municipality.rows);assert.equal(filtered.totals.requested,municipality.requested);assert.equal(filtered.totals.pending,municipality.pending);
+const scientific=JSON.parse(vm.runInContext('JSON.stringify(calculateScientificReport())',context));assert.equal(scientific.context.geoMunicipality,municipality.code);assert.equal(scientific.overall.requested,municipality.requested);
+fs.writeFileSync('docs/phase3-municipal-report.json.gz',zlib.gzipSync(JSON.stringify(scientific)));
+const restored=run('');assert.equal(restored.count,1002426);assert.equal(restored.totals.requested,2566801175,'Retirar municipio restaura la fuente completa');
+vm.runInContext("importCSV('clave,descripcion,entidad,clues,piezas_solicitadas,piezas_entregadas\\nA,Fixture,CHIAPAS,CLUE_NO_EXISTENTE,10,0');analyze({asof:'2026-10-25',group:'entidad',metric:'pending',filters:{},scope:'all'});",context);
+let unsupported=JSON.parse(vm.runInContext('JSON.stringify(calculateGeography())',context));assert.equal(unsupported.catalogCompatible,false);assert.equal(unsupported.units.length,0);assert.equal(unsupported.statuses.catalog_not_compatible,1);
+assert.throws(()=>run(municipality.code),/no disponible/);
+fs.writeFileSync('docs/phase3-reference.json',JSON.stringify({sourceSha256:bundle.meta.supplySha256,catalogSha256:bundle.meta.catalog.sha256,rows:report.count,matchedRows:matched,linkedClues:report.units.length,statuses:report.statuses,states:report.states.length,municipalities:report.municipalities.length,municipalShapes:bundle.municipalities.features.length,filterTest:municipality},null,2));
+console.log('OK: geometrías, datos publicados mínimos, conciliación, filtro municipal, restauración y archivo no compatible.',JSON.stringify({statuses:report.statuses,linkedClues:report.units.length,matchedRows:matched,municipalities:report.municipalities.length}));
+
+(async()=>{vm.runInContext("geoSubscribed=true;geoCache=null",context);messages.length=0;await context.self.onmessage({data:{type:"analyze",config:{asof:"2026-10-25",group:"entidad",metric:"pending",filters:{},scope:"all"}}});const update=messages.find(m=>m.type==="geo-result");assert.ok(update,"Cada análisis con atlas suscrito debe publicar geo-result");assert.equal(update.report.count,1);console.log("OK: actualización del atlas tras cambiar filtros.");})().catch(error=>{console.error(error);process.exitCode=1;});

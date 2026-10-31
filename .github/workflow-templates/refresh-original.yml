@@ -1,0 +1,51 @@
+name: Actualizar datos oficiales
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 12 1 * *'
+concurrency:
+  group: observatorio-refresh
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install openpyxl==3.1.5
+      - run: python scripts/archive_snapshot.py
+      - run: python scripts/update_data.py
+      - run: python scripts/download_geography.py
+      - run: python scripts/prepare_geography.py --download-municipal
+      - run: python scripts/archive_snapshot.py
+      - run: |
+          git config user.name 'observatorio-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add data/observatorio.json.gz data/metadata.json data/geography data/snapshots
+          git diff --cached --quiet || git commit -m 'Actualizar corte de datos oficiales'
+          git push
+  deploy:
+    needs: refresh
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/configure-pages@v5
+      - run: python scripts/build_static.py
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - uses: actions/deploy-pages@v4
+        id: deployment

@@ -1,0 +1,27 @@
+{
+  "sourceSha256": "f99bef47ef61efbfadc2be7a96c1c04448ff3a3ae98f06d1a297e56a815b92f2",
+  "catalogSha256": "5a1cfbe7062b41d9e51249aa4b5fc8a1e623e935882e97fb5f0aac797165c95b",
+  "rows": 1002426,
+  "matchedRows": 806995,
+  "linkedClues": 311,
+  "statuses": {
+    "inside_declared_state": 792258,
+    "not_in_distributed_catalog": 195431,
+    "outside_declared_municipality": 14001,
+    "outside_declared_state": 736
+  },
+  "states": 32,
+  "municipalities": 116,
+  "municipalShapes": 118,
+  "filterTest": {
+    "rows": 38484,
+    "invalid": 0,
+    "requested": 70091407,
+    "delivered": 55382998,
+    "credited": 55382998,
+    "pending": 14708409,
+    "code": "11020",
+    "name": "LEON",
+    "state": "11"
+  }
+}

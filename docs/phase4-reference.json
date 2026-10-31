@@ -1,0 +1,40 @@
+{
+  "sourceSha256": "f99bef47ef61efbfadc2be7a96c1c04448ff3a3ae98f06d1a297e56a815b92f2",
+  "institution": "IMSS",
+  "metrics": {
+    "count": 737837,
+    "requested": 1754292391,
+    "delivered": 1381976553,
+    "credited": 1381976553,
+    "pending": 372315838,
+    "overdue": 300276941,
+    "complete": 594264,
+    "zero": 137058,
+    "excess": 0,
+    "invalid": 0,
+    "noDeadline": 0,
+    "noDeliveryDate": 0,
+    "badDates": 0,
+    "onTime": 593972,
+    "timed": 600779,
+    "responseN": 600779,
+    "median": 10,
+    "p90": 17,
+    "coverage": 0.7877686525290298,
+    "timely": 0.9886697104925438,
+    "p25": 7,
+    "p75": 14,
+    "min": 0,
+    "max": 362
+  },
+  "breakdownGroups": {
+    "entidad": 32,
+    "nombre_proveedor": 437,
+    "clave": 2843,
+    "contrato": 1668,
+    "clues": 58,
+    "tipo_procedimiento_1": 2,
+    "licitacion": 345
+  },
+  "universe": 1002426
+}

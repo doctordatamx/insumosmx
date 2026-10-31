@@ -1,0 +1,52 @@
+{
+  "sourceSha256": "f99bef47ef61efbfadc2be7a96c1c04448ff3a3ae98f06d1a297e56a815b92f2",
+  "universe": 1002426,
+  "base": {
+    "count": 1002426,
+    "requested": 2566801175,
+    "delivered": 2067851443,
+    "credited": 2067635723,
+    "pending": 499165452,
+    "overdue": 409486132,
+    "complete": 819126,
+    "zero": 172556,
+    "excess": 6,
+    "invalid": 0,
+    "noDeadline": 0,
+    "noDeliveryDate": 0,
+    "badDates": 911,
+    "onTime": 726930,
+    "timed": 829870,
+    "responseN": 828959,
+    "median": 12,
+    "p90": 27,
+    "coverage": 0.8055301451231415,
+    "timely": 0.8759564751105595,
+    "top5": 0.33692432488464946
+  },
+  "pairs": 9870,
+  "excludedRequested": 0,
+  "anomalies": {
+    "counts": {
+      "invalid_quantity": 0,
+      "negative_quantity": 0,
+      "invalid_date": 0,
+      "delivery_before_request": 911,
+      "overdelivery": 6,
+      "robust_response": 38578
+    },
+    "flaggedRows": 39495,
+    "robustEligible": 792591,
+    "robustNotEvaluable": 36368
+  },
+  "networks": {
+    "institucion": {
+      "edges": 1932,
+      "nodes": 523
+    },
+    "clave": {
+      "edges": 5976,
+      "nodes": 3874
+    }
+  }
+}

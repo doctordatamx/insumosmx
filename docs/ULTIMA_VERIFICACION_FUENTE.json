@@ -1,0 +1,118 @@
+{
+  "source": "https://entregamedicamentos.salud.gob.mx/insumos/",
+  "exportUrl": "https://entregamedicamentos.salud.gob.mx/insumos/get.excel",
+  "requestFilters": {},
+  "checkedAtUtc": "2026-10-31T04:20:04.584938+00:00",
+  "completedAtUtc": "2026-10-31T04:21:49.440857+00:00",
+  "downloadBytes": 61744154,
+  "contentType": "application/xlsx",
+  "httpLastModified": null,
+  "previousRetrievedAt": "2026-10-26T03:37:19.351187+00:00",
+  "previousSha256": "f99bef47ef61efbfadc2be7a96c1c04448ff3a3ae98f06d1a297e56a815b92f2",
+  "downloadSha256": "eecadbe394130fdf55fe2f978779b4a3df1104d7256d652454ce55f088cd83d7",
+  "sameArchive": false,
+  "previousMembers": [
+    {
+      "name": "remisiones_publica.csv",
+      "bytes": 465571577,
+      "sha256": "ddd489289c1de17f9d7a3688cb9cad38fbb9ca0c99dda802036e74bfacc14d0a",
+      "headers": [
+        "clave",
+        "descripcion",
+        "institucion",
+        "entidad",
+        "clues",
+        "unidad_medica",
+        "suministro",
+        "tipo_procedimiento_1",
+        "licitacion",
+        "contrato",
+        "estatus",
+        "fecha_solicitud",
+        "piezas_solicitadas",
+        "proveedor",
+        "fecha_entrega",
+        "piezas_entregadas",
+        "fecha_limite",
+        "canceladas_activas"
+      ],
+      "records": 1102722
+    }
+  ],
+  "downloadMembers": [
+    {
+      "name": "remisiones_publica.csv",
+      "bytes": 464330889,
+      "sha256": "9974b4b534f4033a2a22ade60432c34ab271571a825c2bbda21d5f94954d4985",
+      "headers": [
+        "clave",
+        "descripcion",
+        "institucion",
+        "entidad",
+        "clues",
+        "unidad_medica",
+        "suministro",
+        "tipo_procedimiento_1",
+        "licitacion",
+        "contrato",
+        "estatus",
+        "fecha_solicitud",
+        "piezas_solicitadas",
+        "proveedor",
+        "fecha_entrega",
+        "piezas_entregadas",
+        "fecha_limite",
+        "canceladas_activas"
+      ],
+      "records": 1098561
+    }
+  ],
+  "sameMemberContents": false,
+  "activeDatasetReplaced": false,
+  "semanticComparison": {
+    "method": "Multiconjunto de hashes SHA-256 por fila CSV parseada, en el mismo esquema y orden de columnas. Se conserva multiplicidad; sólo se ignora el orden de filas. No se enlazan solicitudes individuales.",
+    "unmatchedBeforeRows": 85488,
+    "unmatchedAfterRows": 81327,
+    "sameRowsIgnoringOrder": false,
+    "beforeTotals": {
+      "records": 1102722,
+      "remissions": {
+        "ACTIVA": 1002426,
+        "CANCELADA": 100296
+      },
+      "all": {
+        "requested": 2819614186.0,
+        "delivered": 2069285350.0,
+        "pending": 750544556.0,
+        "invalid": 0
+      },
+      "active": {
+        "requested": 2566801175.0,
+        "delivered": 2067851443.0,
+        "pending": 499165452.0,
+        "invalid": 0
+      }
+    },
+    "afterTotals": {
+      "records": 1098561,
+      "remissions": {
+        "ACTIVA": 997747,
+        "CANCELADA": 100814
+      },
+      "all": {
+        "requested": 2810770500.0,
+        "delivered": 2069154246.0,
+        "pending": 741834267.0,
+        "invalid": 0
+      },
+      "active": {
+        "requested": 2556338435.0,
+        "delivered": 2067933904.0,
+        "pending": 488622544.0,
+        "invalid": 0
+      }
+    }
+  },
+  "sourceDeclaredDateObserved": "23-10-2026",
+  "sourceDeclaredDateEndpoint": "https://entregamedicamentos.salud.gob.mx/insumos/get.graph"
+}

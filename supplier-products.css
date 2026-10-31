@@ -1,0 +1,3 @@
+.supplier-product-table td,.supplier-product-table th{font-size:13px;vertical-align:top}.supplier-product-table .supplier-product-description{min-width:320px;max-width:550px;white-space:normal;overflow-wrap:anywhere}#supplierProductsPanel{margin-top:24px}#supplierProductRows td:last-child{white-space:nowrap}
+
+.supplier-product-table.single-supplier thead tr>:first-child,.supplier-product-table.single-supplier tbody tr>:first-child:not([colspan]){display:none}.supplier-product-table .supplier-product-description{min-width:250px;max-width:350px}.supplier-product-table tbody th{position:static;background:inherit}.supplier-product-table td:last-child{white-space:normal;min-width:130px}

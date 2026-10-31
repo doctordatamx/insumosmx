@@ -1,0 +1,68 @@
+{
+  "reviewDateMexico": "2026-10-26",
+  "originalFile": "entregas.zip",
+  "originalBytes": 60977608,
+  "originalSha256": "f99bef47ef61efbfadc2be7a96c1c04448ff3a3ae98f06d1a297e56a815b92f2",
+  "metadataShaMatches": true,
+  "originalCsvRecords": 1102722,
+  "processedRecords": 1102722,
+  "metadataRecords": 1102722,
+  "countsMatch": true,
+  "rowsWithDifferentColumnCount": 0,
+  "sources": [
+    {
+      "member": "remisiones_publica.csv",
+      "columns": [
+        "clave",
+        "descripcion",
+        "institucion",
+        "entidad",
+        "clues",
+        "unidad_medica",
+        "suministro",
+        "tipo_procedimiento_1",
+        "licitacion",
+        "contrato",
+        "estatus",
+        "fecha_solicitud",
+        "piezas_solicitadas",
+        "proveedor",
+        "fecha_entrega",
+        "piezas_entregadas",
+        "fecha_limite",
+        "canceladas_activas"
+      ],
+      "missingRequired": []
+    }
+  ],
+  "processedFields": [
+    "clave",
+    "descripcion",
+    "institucion",
+    "entidad",
+    "estatus",
+    "nombre_proveedor",
+    "fecha_solicitud",
+    "fecha_entrega",
+    "fecha_limite",
+    "piezas_solicitadas",
+    "piezas",
+    "canceladas_activas",
+    "clues",
+    "unidad_medica",
+    "suministro",
+    "tipo_procedimiento_1",
+    "licitacion",
+    "contrato"
+  ],
+  "snapshotCount": 1,
+  "missingProvenanceFields": [
+    "sourceFileName",
+    "sourceBytes",
+    "transformVersion",
+    "sourceHeaders",
+    "sourceCommit",
+    "publicationDate",
+    "integrityTests"
+  ]
+}

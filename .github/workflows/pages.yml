@@ -1,0 +1,60 @@
+name: Validar y publicar manualmente
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publicar después de revisar el diagnóstico y pasar las comprobaciones'
+        required: true
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: pages-manual
+  cancel-in-progress: false
+jobs:
+  validate-build:
+    permissions:
+      contents: read
+      pages: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Verificar corte preservado
+        run: python scripts/verify_snapshots.py
+      - name: Verificar referencia de cantidades y fechas
+        run: node scripts/check_analytics.cjs
+      - name: Conciliar corte actual con exportación oficial
+        run: python scripts/check_current_data.py
+      - name: Verificar productos por proveedor
+        run: node scripts/check_supplier_products.cjs
+      - name: Construir sitio público
+        run: python scripts/build_static.py
+      - name: Verificar textos y documentos públicos
+        run: node scripts/check_transparency.cjs
+      - uses: actions/configure-pages@v5
+        if: ${{ inputs.publish }}
+      - uses: actions/upload-pages-artifact@v4
+        if: ${{ inputs.publish }}
+        with:
+          path: _site
+  deploy:
+    if: ${{ inputs.publish }}
+    needs: validate-build
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
