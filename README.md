@@ -37,6 +37,8 @@ Se conservan **18 campos de análisis y dos cortes históricos**. Las fechas de 
 
 Consulta el [informe de actualización](docs/ACTUALIZACION_2026-10-30.md), los [metadatos del corte](data/metadata.json) y el [inventario histórico](data/snapshots/index.json).
 
+**Última verificación de la fuente (5 de noviembre de 2026).** La exportación oficial coincide fila por fila con el corte incluido, incluidos los duplicados. [Resultado de la comparación](docs/VERIFICACION_FUENTE_2026-11-05.json).
+
 ## Uso local
 
 Requiere Python 3 para servir los archivos y un navegador moderno compatible con Web Workers y `DecompressionStream`.

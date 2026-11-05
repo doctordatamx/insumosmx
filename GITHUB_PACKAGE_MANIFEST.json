@@ -142,8 +142,8 @@
       "sha256": "d26155e8d813bb5d2c1253ea6a9a8eda62a4d06aa709e965c3456ca8db0a8f3b"
     },
     "README.md": {
-      "bytes": 6595,
-      "sha256": "2206ed1b424d1709e948974046eb9db6d8ba0fe9ebc45cc4b12cd9617999d188"
+      "bytes": 6726,
+      "sha256": "24a51ac3523f64aeb9f289d9439aeb48ba4aee549483829f448b93b6e38aa267"
     },
     "SECURITY.md": {
       "bytes": 1607,
@@ -588,6 +588,10 @@
     ".github/workflows/pages.yml": {
       "bytes": 1844,
       "sha256": "02b728417cc5cb0dda9aee26914e2d5b7fc47d8a77dbc1c91328ff60ad0c0127"
+    },
+    "docs/VERIFICACION_FUENTE_2026-11-05.json": {
+      "bytes": 3499,
+      "sha256": "00e65f94fbcaa2ad71cce11d5780173c67d51d20cdd090dd48d90f9d006d7a11"
     }
   }
 }
